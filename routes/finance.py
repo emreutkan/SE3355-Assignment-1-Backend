@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from database.database import get_db_connection
+from models.models import Currency, db
 
 finance_bp = Blueprint('finance', __name__)
 
@@ -23,3 +24,40 @@ def get_finance_menu():
 
     conn.close()
     return jsonify(main_items)
+
+
+@finance_bp.route('/currencies', methods=['GET'])
+def get_currencies():
+    """
+    Get all currencies
+    ---
+    responses:
+      200:
+        description: List of currencies
+    """
+    currencies = Currency.query.all()
+    return jsonify([currency.to_dict() for currency in currencies])
+
+
+@finance_bp.route('/currencies/<code>', methods=['GET'])
+def get_currency(code):
+    """
+    Get currency by code
+    ---
+    parameters:
+      - name: code
+        in: path
+        type: string
+        required: true
+        description: Currency code (e.g., USD, EUR)
+    responses:
+      200:
+        description: Currency details
+      404:
+        description: Currency not found
+    """
+    currency = Currency.query.filter_by(code=code.upper()).first()
+    if not currency:
+        return jsonify({'error': 'Currency not found'}), 404
+
+    return jsonify(currency.to_dict())
