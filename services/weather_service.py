@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, timedelta
 import random
 from models.models import WeatherDay, db
+from database.database import get_db_connection
 
 
 def get_day_name(date):
@@ -18,44 +19,64 @@ def get_month_name(month):
 
 
 def fetch_weather_data():
-    """Generate random weather data for Izmir"""
-    today = datetime.now()
+    """Fetch weather data from the database"""
+    conn = get_db_connection()
     weather_days = []
 
-    # Weather conditions and icons
-    conditions = ['Güneşli', 'Parçalı Bulutlu', 'Bulutlu', 'Yağmurlu', 'Gök Gürültülü Fırtına']
-    icons = ['☀️', '🌤️', '☁️', '🌧️', '⛈️']
+    try:
+        # Query the database for weather data
+        weather_records = conn.execute('SELECT * FROM weather').fetchall()
 
-    # For 5 days starting from today
-    for i in range(5):
-        next_day = today + timedelta(days=i)
-        day_name = get_day_name(next_day)
-        date_str = f"{next_day.day} {get_month_name(next_day.month)}"
+        for record in weather_records:
+            # Parse the date
+            date_obj = datetime.strptime(record['date'], '%Y-%m-%d')
+            day_name = get_day_name(date_obj)
+            date_str = f"{date_obj.day} {get_month_name(date_obj.month)}"
 
-        # Generate random temperature range appropriate for Izmir
-        high_temp = random.randint(20, 32)  # Izmir is generally warm
-        low_temp = high_temp - random.randint(5, 10)  # 5-10 degrees cooler at night
+            # Map the database condition to Turkish conditions
+            conditions_map = {
+                "Sunny": "Güneşli",
+                "Partly Cloudy": "Parçalı Bulutlu",
+                "Cloudy": "Bulutlu",
+                "Rainy": "Yağmurlu",
+                "Thunderstorm": "Gök Gürültülü Fırtına"
+            }
 
-        # Randomly select condition and matching icon
-        condition_index = random.randint(0, len(conditions) - 1)
+            # Map the database icon to emoji icons
+            icons_map = {
+                "sun": "☀️",
+                "cloud-sun": "🌤️",
+                "cloud": "☁️",
+                "cloud-rain": "🌧️",
+                "cloud-bolt": "⛈️"
+            }
 
-        weather_day = WeatherDay(
-            day=day_name,
-            date=date_str,
-            icon=icons[condition_index],
-            highTemp=high_temp,
-            lowTemp=low_temp,
-            condition=conditions[condition_index],
-            city='Izmir',
-            last_updated=datetime.utcnow()
-        )
-        weather_days.append(weather_day)
+            condition = conditions_map.get(record['condition'], "Güneşli")
+            icon = icons_map.get(record['icon'], "☀️")
+
+            weather_day = WeatherDay(
+                day=day_name,
+                date=date_str,
+                icon=icon,
+                highTemp=record['temp_high'],
+                lowTemp=record['temp_low'],
+                condition=condition,
+                city='Izmir',
+                last_updated=datetime.utcnow()
+            )
+            weather_days.append(weather_day)
+
+    except Exception as e:
+        print(f"Error fetching weather data from database: {e}")
+
+    finally:
+        conn.close()
 
     return weather_days
 
 
 def update_weather_data():
-    """Generate fresh weather data and update the database"""
+    """Get weather data from database and update the db.session"""
     weather_days = fetch_weather_data()
 
     try:

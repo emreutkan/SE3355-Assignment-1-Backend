@@ -1,5 +1,3 @@
-
-
 import sqlite3
 import os
 from datetime import datetime, timedelta
@@ -52,11 +50,23 @@ def init_db():
         )
     ''')
 
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS currencies (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            code TEXT NOT NULL,
+            value REAL NOT NULL,
+            change REAL NOT NULL,
+            last_updated TEXT NOT NULL
+        )
+    ''')
+
     # Only insert seed data if this is a new database
     if not db_exists:
         _seed_finance_menu(c)
         _seed_news(c)
         _seed_weather(c)
+        _seed_currencies(c)
 
     conn.commit()
     conn.close()
@@ -128,7 +138,7 @@ def _seed_news(cursor):
         {
             "title": "Yeni Enerji Politikaları Açıklandı",
             "image_url": "https://picsum.photos/id/4/1200/800",
-            "content": "Hükümet, yenilenebilir enerji kaynaklarına geçişi hızlandıracak yeni politikaları açıkladı. 2030 yılına kadar karbon salınımının %50 azaltılması hedefleniyor.",
+            "content": "Hükümet, yenilenebilir enerji kaynaklarına geçişi hızlandıracak yeni politikaları açıkladı. 2030 yılına kadar karbon salınımının %50 azaltılması hedefle[...]",
             "publish_date": "2025-05-11",
             "url": "/haber/yeni-enerji-politikalari"
         },
@@ -149,7 +159,7 @@ def _seed_news(cursor):
         {
             "title": "Otomotiv Sektöründe Elektrikli Araç Atağı",
             "image_url": "https://picsum.photos/id/7/1200/800",
-            "content": "Otomotiv üreticileri elektrikli araç üretimine ağırlık veriyor. Önümüzdeki 5 yıl içinde piyasaya sürülecek araçların yarısından fazlasının elektrikli olması bekleniyor.",
+            "content": "Otomotiv üreticileri elektrikli araç üretimine ağırlık veriyor. Önümüzdeki 5 yıl içinde piyasaya sürülecek araçların yarısından fazlasının elektrikli ol[...]",
             "publish_date": "2025-05-08",
             "url": "/haber/otomotiv-elektrikli-araclar"
         },
@@ -200,3 +210,28 @@ def _seed_weather(cursor):
             INSERT INTO weather (date, temp_high, temp_low, condition, icon) 
             VALUES (?, ?, ?, ?, ?)
         ''', (date_str, temp_high, temp_low, weather_conditions[condition_index], weather_icons[condition_index]))
+
+
+def _seed_currencies(cursor):
+    # Initial currency data
+    currencies_data = [
+        {"name": "DOLAR", "code": "USD", "value": 37.45, "change": 0.75},
+        {"name": "EURO", "code": "EUR", "value": 40.22, "change": -0.32},
+        {"name": "STERLİN", "code": "GBP", "value": 48.15, "change": 0.28},
+        {"name": "BITCOIN", "code": "BTC", "value": 82500.25, "change": 2.15},
+        {"name": "BIST 100", "code": "BIST", "value": 9250.75, "change": 1.25},
+        {"name": "ALTIN", "code": "XAU", "value": 3750.50, "change": 0.95},
+        {"name": "FAİZ", "code": "INT", "value": 45.00, "change": 0.00}
+    ]
+
+    for currency in currencies_data:
+        cursor.execute('''
+            INSERT INTO currencies (name, code, value, change, last_updated) 
+            VALUES (?, ?, ?, ?, ?)
+        ''', (
+            currency["name"],
+            currency["code"],
+            currency["value"],
+            currency["change"],
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ))
