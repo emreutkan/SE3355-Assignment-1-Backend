@@ -16,8 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{Config.DB_PATH}'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(Config)
 db.init_app(app)
 
 # Configure Swagger
@@ -38,24 +37,15 @@ swagger_config = {
 
 swagger = Swagger(app, config=swagger_config)
 
-# Create directory for news images if it doesn't exist
-os.makedirs('newsImages', exist_ok=True)
-
-@app.route('/newsImages/<path:filename>')
-def serve_news_images(filename):
-    return send_from_directory('newsImages', filename)
-
 # Register blueprints
 app.register_blueprint(finance_bp, url_prefix='/api')
 app.register_blueprint(news_bp, url_prefix='/api')
 app.register_blueprint(weather_bp, url_prefix='/api')
 
-# Initialize the database when the app starts
-init_db()
-
+# Initialize database
 with app.app_context():
-    db.create_all()
-    # Update data with random or API data
+    init_db()
+    # Move the update calls inside the application context
     update_weather_data()
     update_finance_data()
     update_news_data()

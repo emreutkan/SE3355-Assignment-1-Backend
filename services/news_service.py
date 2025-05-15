@@ -55,10 +55,10 @@ def fetch_news_data():
             news_item = NewsItem(
                 id=record['id'],
                 title=record['title'],
-                description=record['content'],  # Using content field as description
-                imageUrl=f"http://127.0.0.1:5000{image_url}",
-                link=record['url'],
-                publish_date=datetime.strptime(record['publish_date'], '%Y-%m-%d')
+                content=record['content'],
+                image_url=f"http://127.0.0.1:5000{image_url}",
+                url=record['url'],
+                publish_date=record['publish_date']
             )
             news_items.append(news_item)
 

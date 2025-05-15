@@ -12,7 +12,7 @@ class Currency(db.Model):
     code = db.Column(db.String(10), nullable=False, unique=True)
     value = db.Column(db.Float, nullable=False)
     change = db.Column(db.Float, nullable=False)
-    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    last_updated = db.Column(db.String, nullable=False)
 
     def to_dict(self):
         return {
@@ -21,53 +21,66 @@ class Currency(db.Model):
             'code': self.code,
             'value': self.value,
             'change': self.change,
-            'last_updated': self.last_updated.isoformat() if self.last_updated else None
+            'last_updated': self.last_updated
         }
 
 
 class WeatherDay(db.Model):
-    __tablename__ = 'weather_days'
+    __tablename__ = 'weather'
 
     id = db.Column(db.Integer, primary_key=True)
-    day = db.Column(db.String(20), nullable=False)
-    date = db.Column(db.String(20), nullable=False)
-    icon = db.Column(db.String(20), nullable=False)
-    highTemp = db.Column(db.Integer, nullable=False)
-    lowTemp = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.String, nullable=False)
+    temp_high = db.Column(db.Float, nullable=False)
+    temp_low = db.Column(db.Float, nullable=False)
     condition = db.Column(db.String(50), nullable=False)
-    city = db.Column(db.String(50), default='Izmir')
-    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    icon = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
-            'day': self.day,
             'date': self.date,
-            'icon': self.icon,
-            'highTemp': self.highTemp,
-            'lowTemp': self.lowTemp,
+            'temp_high': self.temp_high,
+            'temp_low': self.temp_low,
             'condition': self.condition,
-            'city': self.city,
-            'last_updated': self.last_updated.isoformat() if self.last_updated else None
+            'icon': self.icon
+        }
+
+
+class FinanceMenu(db.Model):
+    __tablename__ = 'finance_menu'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    url = db.Column(db.String(100), nullable=False)
+    has_submenu = db.Column(db.Integer, default=0)
+    parent_id = db.Column(db.Integer, default=None)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'url': self.url,
+            'has_submenu': self.has_submenu,
+            'parent_id': self.parent_id
         }
 
 
 class NewsItem(db.Model):
-    __tablename__ = 'news_items'
+    __tablename__ = 'news'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    imageUrl = db.Column(db.String(255), nullable=False)
-    link = db.Column(db.String(255), nullable=False)
-    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
+    image_url = db.Column(db.String(500), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    publish_date = db.Column(db.String, nullable=False)
+    url = db.Column(db.String(500), nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
             'title': self.title,
-            'description': self.description,
-            'imageUrl': self.imageUrl,
-            'link': self.link,
-            'publish_date': self.publish_date.isoformat() if self.publish_date else None
+            'imageUrl': self.image_url,
+            'description': self.content,
+            'link': self.url,
+            'publish_date': self.publish_date
         }
