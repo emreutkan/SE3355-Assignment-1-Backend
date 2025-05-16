@@ -103,7 +103,7 @@ def _seed_news(cursor):
         },
         {
             "title": "Katlanabilir iPhone Ne Zaman Tanıtılacak? ",
-            "image_url": f"{api_base_url}/news_9.jpg",
+            "image_url": f"{api_base_url}/news_9.jpeg",
             "url": "https://www.webtekno.com/katlanabilir-iphone-fiyati-ozellikleri-h158364.html"
         },
         {
