@@ -22,8 +22,6 @@ def init_db():
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
             image_url TEXT NOT NULL,
-            content TEXT NOT NULL,
-            publish_date TEXT NOT NULL,
             url TEXT NOT NULL
         )
     ''')
