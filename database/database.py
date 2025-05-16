@@ -17,17 +17,6 @@ def init_db():
     conn = sqlite3.connect(Config.DB_PATH)
     c = conn.cursor()
 
-    # Create tables if they don't exist
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS finance_menu (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            url TEXT NOT NULL,
-            has_submenu INTEGER DEFAULT 0,
-            parent_id INTEGER DEFAULT NULL
-        )
-    ''')
-
     c.execute('''
         CREATE TABLE IF NOT EXISTS news (
             id INTEGER PRIMARY KEY,
@@ -63,53 +52,12 @@ def init_db():
 
     # Only insert seed data if this is a new database
     if not db_exists:
-        _seed_finance_menu(c)
         _seed_news(c)
         _seed_weather(c)
         _seed_currencies(c)
 
     conn.commit()
     conn.close()
-
-
-def _seed_finance_menu(cursor):
-    # Main menu items
-    cursor.execute("INSERT INTO finance_menu (name, url, has_submenu) VALUES (?, ?, ?)",
-                   ("Borsa", "/borsa", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, has_submenu) VALUES (?, ?, ?)",
-                   ("Döviz", "/doviz", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, has_submenu) VALUES (?, ?, ?)",
-                   ("Altın", "/altin", 0))
-    cursor.execute("INSERT INTO finance_menu (name, url, has_submenu) VALUES (?, ?, ?)",
-                   ("Kripto", "/kripto", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, has_submenu) VALUES (?, ?, ?)",
-                   ("Ekonomi", "/ekonomi", 0))
-
-    # Submenu items for Borsa
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("BIST 100", "/borsa/bist100", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("BIST 30", "/borsa/bist30", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("En Çok Artanlar", "/borsa/artan", 1))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("En Çok Azalanlar", "/borsa/azalan", 1))
-
-    # Submenu items for Döviz
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Dolar", "/doviz/usd", 2))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Euro", "/doviz/eur", 2))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Sterlin", "/doviz/gbp", 2))
-
-    # Submenu items for Kripto
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Bitcoin", "/kripto/btc", 4))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Ethereum", "/kripto/eth", 4))
-    cursor.execute("INSERT INTO finance_menu (name, url, parent_id) VALUES (?, ?, ?)",
-                   ("Piyasa Değerine Göre", "/kripto/piyasa", 4))
 
 
 def _seed_news(cursor):

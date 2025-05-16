@@ -55,14 +55,12 @@ def fetch_weather_data():
             icon = icons_map.get(record['icon'], "☀️")
 
             weather_day = WeatherDay(
-                day=day_name,
-                date=date_str,
-                icon=icon,
-                highTemp=record['temp_high'],
-                lowTemp=record['temp_low'],
-                condition=condition,
-                city='Izmir',
-                last_updated=datetime.utcnow()
+                id=record['id'],
+                date=record['date'],
+                temp_high=record['temp_high'],
+                temp_low=record['temp_low'],
+                condition=record['condition'],
+                icon=record['icon']
             )
             weather_days.append(weather_day)
 
@@ -73,5 +71,3 @@ def fetch_weather_data():
         conn.close()
 
     return weather_days
-
-
