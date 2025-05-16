@@ -32,22 +32,3 @@ def fetch_finance_data():
 
     return currencies
 
-
-def update_finance_data():
-    """Fetch fresh finance data and update the database"""
-    currencies = fetch_finance_data()
-
-    try:
-        # Clear existing data
-        db.session.query(Currency).delete()
-
-        # Add new data
-        for currency in currencies:
-            db.session.add(currency)
-
-        db.session.commit()
-        return True
-
-    except Exception as e:
-        db.session.rollback()
-        return False

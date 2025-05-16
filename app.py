@@ -7,9 +7,7 @@ from routes.weather import weather_bp
 from database.database import init_db
 from flasgger import Swagger
 from models.models import db
-from services.weather_service import update_weather_data
-from services.finance_service import update_finance_data
-from services.news_service import update_news_data
+
 import os
 
 app = Flask(__name__)
@@ -45,10 +43,7 @@ app.register_blueprint(weather_bp, url_prefix='/api')
 # Initialize database
 with app.app_context():
     init_db()
-    # Move the update calls inside the application context
-    update_weather_data()
-    update_finance_data()
-    update_news_data()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

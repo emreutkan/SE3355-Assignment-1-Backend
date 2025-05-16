@@ -75,21 +75,3 @@ def fetch_weather_data():
     return weather_days
 
 
-def update_weather_data():
-    """Get weather data from database and update the db.session"""
-    weather_days = fetch_weather_data()
-
-    try:
-        # Clear existing data
-        db.session.query(WeatherDay).delete()
-
-        # Add new data
-        for weather_day in weather_days:
-            db.session.add(weather_day)
-
-        db.session.commit()
-        return True
-
-    except Exception as e:
-        db.session.rollback()
-        return False

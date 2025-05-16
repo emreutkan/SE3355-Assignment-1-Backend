@@ -70,22 +70,3 @@ def fetch_news_data():
 
     return news_items
 
-
-def update_news_data():
-    """Get news data from database and update the db.session"""
-    news_items = fetch_news_data()
-
-    try:
-        # Clear existing data
-        db.session.query(NewsItem).delete()
-
-        # Add new data
-        for news_item in news_items:
-            db.session.add(news_item)
-
-        db.session.commit()
-        return True
-
-    except Exception as e:
-        db.session.rollback()
-        return False
