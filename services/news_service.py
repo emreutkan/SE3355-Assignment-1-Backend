@@ -55,10 +55,8 @@ def fetch_news_data():
             news_item = NewsItem(
                 id=record['id'],
                 title=record['title'],
-                content=record['content'],
-                image_url=f"http://127.0.0.1:5000{image_url}",
-                url=record['url'],
-                publish_date=record['publish_date']
+                image_url=record['image_url'],
+                url=record['url']
             )
             news_items.append(news_item)
 
@@ -69,4 +67,3 @@ def fetch_news_data():
         conn.close()
 
     return news_items
-

@@ -13,7 +13,7 @@ def get_news():
       200:
         description: List of news articles
     """
-    news_items = NewsItem.query.order_by(NewsItem.publish_date.desc()).all()
+    news_items = NewsItem.query.order_by(NewsItem.id.asc()).all()
     return jsonify([news.to_dict() for news in news_items])
 
 

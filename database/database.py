@@ -89,40 +89,35 @@ def _seed_news(cursor):
         {
             "title": "Son Yılların En Yakışıklı Hatchback'i: Yepyeni DS N°4 Tanıtıldı",
             "image_url": f"{api_base_url}/news_6.jpg",
-
             "url": "https://www.webtekno.com/ds-no4-tanitildi-h158519.html"
         },
         {
             "title": "BYD'nin Egea'nın Üçte Biri Fiyatına Satılacak Elektrikli Otomobili Ortaya Çıktı",
             "image_url": f"{api_base_url}/news_7.jpeg",
-
             "url": "https://www.webtekno.com/byd-e7-ozellikleri-ortaya-cikti-h158441.html"
         },
         {
             "title": "Son 2 Yıldır Böylesi Görülmedi: Microsoft Binlerce Çalışanını İşten Çıkarıyor!",
             "image_url": f"{api_base_url}/news_8.jpeg",
-
             "url": "https://www.webtekno.com/microsoft-binlerce-calisanini-isten-cikariyor-h158507.html"
         },
         {
             "title": "Katlanabilir iPhone Ne Zaman Tanıtılacak? ",
             "image_url": f"{api_base_url}/news_9.jpg",
-
             "url": "https://www.webtekno.com/katlanabilir-iphone-fiyati-ozellikleri-h158364.html"
         },
         {
             "title": "Arama Motorları Ölüyor ",
             "image_url": f"{api_base_url}/news_10.jpg",
-
             "url": "https://www.webtekno.com/microsoft-bing-api-sonlandiriyor-h158526.html"
         }
     ]
 
     for news in news_data:
         cursor.execute('''
-            INSERT INTO news (title, image_url, content, publish_date, url) 
-            VALUES (?, ?, ?, ?, ?)
-        ''', (news["title"], news["image_url"], news["content"], news["publish_date"], news["url"]))
+            INSERT INTO news (title, image_url, url) 
+            VALUES (?, ?, ?)
+        ''', (news["title"], news["image_url"], news["url"]))
 
 
 def _seed_weather(cursor):

@@ -46,24 +46,6 @@ class WeatherDay(db.Model):
         }
 
 
-class FinanceMenu(db.Model):
-    __tablename__ = 'finance_menu'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    url = db.Column(db.String(100), nullable=False)
-    has_submenu = db.Column(db.Integer, default=0)
-    parent_id = db.Column(db.Integer, default=None)
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'url': self.url,
-            'has_submenu': self.has_submenu,
-            'parent_id': self.parent_id
-        }
-
 
 class NewsItem(db.Model):
     __tablename__ = 'news'
@@ -71,8 +53,6 @@ class NewsItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     image_url = db.Column(db.String(500), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    publish_date = db.Column(db.String, nullable=False)
     url = db.Column(db.String(500), nullable=False)
 
     def to_dict(self):
@@ -80,7 +60,5 @@ class NewsItem(db.Model):
             'id': self.id,
             'title': self.title,
             'imageUrl': self.image_url,
-            'description': self.content,
             'link': self.url,
-            'publish_date': self.publish_date
         }
