@@ -1,7 +1,7 @@
-flask==2.2.5
+flask
 flask-cors
 flask-sqlalchemy
-flasgger==0.9.7
+flasgger
 requests
 pillow
-markupsafe==2.1.5
+markupsafe
