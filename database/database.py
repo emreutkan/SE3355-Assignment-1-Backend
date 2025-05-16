@@ -59,7 +59,7 @@ def init_db():
 
 
 def _seed_news(cursor):
-    api_base_url = "https://se3355a1b-dpd2gycrcegubjaz.polandcentral-01.azurewebsites.net/news_1.jpg"
+    api_base_url = "https://se3355a1b-dpd2gycrcegubjaz.polandcentral-01.azurewebsites.net"
     news_data = [
         {
             "title": "Uber, Yeni 'Route Share' Hizmetini Başlattı",
