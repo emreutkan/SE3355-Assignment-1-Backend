@@ -1,7 +1,10 @@
-flask==2.2.5
+flask==2.0.3
 flask-cors
 flask-sqlalchemy
 flasgger==0.9.5
 requests
 pillow
-markupsafe==2.1.5
+markupsafe==2.0.1
+Werkzeug==2.0.3
+importlib-metadata==4.13.0
+Jinja2==3.0.3
