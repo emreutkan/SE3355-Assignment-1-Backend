@@ -40,6 +40,10 @@ app.register_blueprint(finance_bp, url_prefix='/api')
 app.register_blueprint(news_bp, url_prefix='/api')
 app.register_blueprint(weather_bp, url_prefix='/api')
 
+@app.route('/<path:filename>')
+def serve_image(filename):
+    return send_from_directory('newsImages', filename)
+
 # Initialize database
 with app.app_context():
     init_db()

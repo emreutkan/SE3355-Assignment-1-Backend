@@ -61,76 +61,62 @@ def init_db():
 
 
 def _seed_news(cursor):
+    api_base_url = "http://localhost:5000"
     news_data = [
         {
-            "title": "Ekonomi Dünya Çapında Canlanma Belirtileri Gösteriyor",
-            "image_url": "https://picsum.photos/id/1/1200/800",
-            "content": "Son ekonomik veriler, dünya çapında bir ekonomik canlanma olduğunu gösteriyor. Uzmanlar bu trendin devam edeceğini öngörüyor.",
-            "publish_date": "2025-05-14",
-            "url": "/haber/ekonomi-dunyada-canlaniyor"
+            "title": "Uber, Yeni 'Route Share' Hizmetini Başlattı",
+            "image_url": f"{api_base_url}/news_1.jpg",
+            "url": "https://www.webtekno.com/uber-route-share-hizmeti-h158534.html"
         },
         {
-            "title": "Teknoloji Şirketleri Yatırımlarını Artırıyor",
-            "image_url": "https://picsum.photos/id/2/1200/800",
-            "content": "Büyük teknoloji şirketleri, yapay zeka ve bulut teknolojilerine yaptıkları yatırımları artırıyor. Bu durum sektörde yeni istihdam fırsatları yaratacak.",
-            "publish_date": "2025-05-13",
-            "url": "/haber/teknoloji-sirketleri-yatirim"
+            "title": "Epic Games'te Mega İndirim Fırsatları Başladı",
+            "image_url": f"{api_base_url}/news_2.jpg",
+            "url": "https://www.webtekno.com/epic-games-indirimli-oyun-h133591.html"
         },
         {
-            "title": "Merkez Bankası Faiz Kararını Açıkladı",
-            "image_url": "https://picsum.photos/id/3/1200/800",
-            "content": "Merkez Bankası bugün yaptığı toplantıda faiz oranlarını değiştirmeme kararı aldı. Piyasalar bu kararı olumlu karşıladı.",
-            "publish_date": "2025-05-12",
-            "url": "/haber/merkez-bankasi-faiz-karari"
+            "title": "Trump'tan Apple CEO'suna Uyarı",
+            "image_url": f"{api_base_url}/news_3.jpg",
+            "url": "https://www.webtekno.com/trump-apple-ceo-uyari-h158532.html"
         },
         {
-            "title": "Yeni Enerji Politikaları Açıklandı",
-            "image_url": "https://picsum.photos/id/4/1200/800",
-            "content": "Hükümet, yenilenebilir enerji kaynaklarına geçişi hızlandıracak yeni politikaları açıkladı. 2030 yılına kadar karbon salınımının %50 azaltılması hedefle[...]",
-            "publish_date": "2025-05-11",
-            "url": "/haber/yeni-enerji-politikalari"
+            "title": "Google, Kendimi Şanslı Hissediyorum Seçeneğini Kaldırmaya Hazırlanıyor",
+            "image_url": f"{api_base_url}/news_4.jpg",
+            "url": "https://www.webtekno.com/google-kendimi-sansli-hissediyorum-kaldiriyor-h158523.html"
         },
         {
-            "title": "Spor Dünyasında Transferler Hızlandı",
-            "image_url": "https://picsum.photos/id/5/1200/800",
-            "content": "Yaz transfer sezonu yaklaşırken futbol kulüpleri transfer çalışmalarını hızlandırdı. Büyük takımlar yıldız oyuncular için görüşmelere başladı.",
-            "publish_date": "2025-05-10",
-            "url": "/haber/spor-transferler-hizlandi"
+            "title": "Apple, Harita Uygulamasına Uzman Yorumları Ekledi",
+            "image_url": f"{api_base_url}/news_5.jpg",
+            "url": "https://www.webtekno.com/apple-harita-uzman-yorumlari-h158520.html"
         },
         {
-            "title": "Sağlık Bakanlığı Yeni Aşı Programını Duyurdu",
-            "image_url": "https://picsum.photos/id/6/1200/800",
-            "content": "Sağlık Bakanlığı, önümüzdeki ay başlayacak yeni aşı programını duyurdu. Program kapsamında tüm vatandaşlar ücretsiz aşılanabilecek.",
-            "publish_date": "2025-05-09",
-            "url": "/haber/saglik-bakanligi-asi-programi"
+            "title": "Son Yılların En Yakışıklı Hatchback'i: Yepyeni DS N°4 Tanıtıldı",
+            "image_url": f"{api_base_url}/news_6.jpg",
+
+            "url": "https://www.webtekno.com/ds-no4-tanitildi-h158519.html"
         },
         {
-            "title": "Otomotiv Sektöründe Elektrikli Araç Atağı",
-            "image_url": "https://picsum.photos/id/7/1200/800",
-            "content": "Otomotiv üreticileri elektrikli araç üretimine ağırlık veriyor. Önümüzdeki 5 yıl içinde piyasaya sürülecek araçların yarısından fazlasının elektrikli ol[...]",
-            "publish_date": "2025-05-08",
-            "url": "/haber/otomotiv-elektrikli-araclar"
+            "title": "BYD'nin Egea'nın Üçte Biri Fiyatına Satılacak Elektrikli Otomobili Ortaya Çıktı",
+            "image_url": f"{api_base_url}/news_7.jpeg",
+
+            "url": "https://www.webtekno.com/byd-e7-ozellikleri-ortaya-cikti-h158441.html"
         },
         {
-            "title": "Eğitimde Dijital Dönüşüm Başlıyor",
-            "image_url": "https://picsum.photos/id/8/1200/800",
-            "content": "Milli Eğitim Bakanlığı, eğitimde dijital dönüşüm projesini hayata geçiriyor. Tüm okullara yüksek hızlı internet ve yeni teknolojik cihazlar sağlanacak.",
-            "publish_date": "2025-05-07",
-            "url": "/haber/egitimde-dijital-donusum"
+            "title": "Son 2 Yıldır Böylesi Görülmedi: Microsoft Binlerce Çalışanını İşten Çıkarıyor!",
+            "image_url": f"{api_base_url}/news_8.jpeg",
+
+            "url": "https://www.webtekno.com/microsoft-binlerce-calisanini-isten-cikariyor-h158507.html"
         },
         {
-            "title": "Emlak Piyasasında Yeni Trend: Akıllı Evler",
-            "image_url": "https://picsum.photos/id/9/1200/800",
-            "content": "Emlak piyasasında akıllı ev teknolojileriyle donatılmış konutlara olan talep artıyor. Yatırımcılar bu alanda yeni projelere yöneliyor.",
-            "publish_date": "2025-05-06",
-            "url": "/haber/emlak-akilli-evler"
+            "title": "Katlanabilir iPhone Ne Zaman Tanıtılacak? ",
+            "image_url": f"{api_base_url}/news_9.jpg",
+
+            "url": "https://www.webtekno.com/katlanabilir-iphone-fiyati-ozellikleri-h158364.html"
         },
         {
-            "title": "Turizm Sektörü Yeni Sezona Hazırlanıyor",
-            "image_url": "https://picsum.photos/id/10/1200/800",
-            "content": "Turizm sektörü temsilcileri, bu yıl rekor sayıda turist beklediklerini açıkladı. Otel doluluk oranlarının geçen yıla göre %30 artması öngörülüyor.",
-            "publish_date": "2025-05-05",
-            "url": "/haber/turizm-yeni-sezon"
+            "title": "Arama Motorları Ölüyor ",
+            "image_url": f"{api_base_url}/news_10.jpg",
+
+            "url": "https://www.webtekno.com/microsoft-bing-api-sonlandiriyor-h158526.html"
         }
     ]
 
